@@ -4,6 +4,7 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -25,7 +26,7 @@ public class FinalTask1Steps {
 
         driver = new ChromeDriver();
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
         driver.get("https://mystore-testlab.coderslab.pl/index.php?controller=authentication&back=my-account");
         WebElement emailInput = driver.findElement(By.name("email"));
         emailInput.sendKeys("znqocowprtbwttvupo@nvhrw.com");
@@ -69,20 +70,36 @@ public class FinalTask1Steps {
 
     @Then("first address is added")
     public void firstAddressIsAdded() {
+        WebElement firstAddress = driver.findElement(By.xpath("/html/body/main/section/div/div/section/section/div[1]/article/div[1]/h4"));
+        Assertions.assertTrue(firstAddress.isDisplayed());
+
     }
 
     @And("the data is validated")
     public void theDataIsValidated() {
-        
+
+       WebElement savedAddress = driver.findElement(By.xpath("/html/body/main/section/div/div/section/section/div[1]/article/div[1]/address"));
+
+        savedAddress.getText();
+        Assertions.assertTrue(savedAddress.equals("Mike Jerozolimskie Warsaw 01-591 0700 251 241"));
+
+
     }
 
     @And("the address is removed")
     public void theAddressIsRemoved() {
-        
+
+        driver.findElement(By.xpath("/html/body/main/section/div/div/section/section/div[1]/article/div[2]/a[2]/span")).click();
+
+
     }
 
     @And("checks if address is removed")
     public void checksIfAddressIsRemoved() {
+
+        WebElement savedAddress = driver.findElement(By.xpath("/html/body/main/section/div/div/section/section/div[1]/article/div[1]/address"));
+        Assertions.assertFalse(savedAddress.isDisplayed());
+
     }
 
 
